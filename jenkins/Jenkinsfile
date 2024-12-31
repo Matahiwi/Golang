@@ -1,0 +1,21 @@
+pipeline {
+    agent any  // we only have one node (master), any selects that, we can define specific agents if required
+    stages{    
+        stage("Format and Test"){
+            steps{
+                dir("Golang"){
+                    sh "make format"
+                    sh "make test"
+                }
+            }
+        }
+        stage("Build"){
+            steps{
+                dir("Golang"){             //change dir and remain in there for this step
+                    sh "make build"    
+                    sh "make run_binary"
+                    sh "make rm"
+                }
+            }
+        }
+}
