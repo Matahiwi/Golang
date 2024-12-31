@@ -3,14 +3,17 @@ pipeline {
     stages{
         stage("Format and Test"){
             steps{
-                    sh "pwd"
                     sh "make format"
                     sh "make test"
             }
         }
+        stage("Run"){
+            steps{
+                    sh "make run"
+            }
+        }
         stage("Build"){
             steps{
-                    sh "pwd"
                     sh "make build"
                     sh "make run_binary"
                     sh "make rm"
