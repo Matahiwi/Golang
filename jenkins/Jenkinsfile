@@ -8,6 +8,7 @@ pipeline {
         stage("Format and Test"){
             steps{
                 sh """
+                    echo "Format and Test Stage"
                     export GOCACHE="${WORKSPACE}" # make gocache workspace not /.cache
                     pwd
                     make format
@@ -18,8 +19,8 @@ pipeline {
         stage("Run"){
             steps{
                 sh """
+                    echo "Run Stage"
                     export GOCACHE="${WORKSPACE}" 
-                    pwd
                     make run
                 """
             }
@@ -27,8 +28,8 @@ pipeline {
         stage("Build"){
             steps{
                 sh """
+                    echo "Build Stage"
                     export GOCACHE="${WORKSPACE}" 
-                    pwd
                     make build
                     make run_binary
                     make rm
@@ -37,4 +38,3 @@ pipeline {
         }
     }
 }
-
