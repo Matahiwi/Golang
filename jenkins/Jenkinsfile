@@ -9,22 +9,13 @@ pipeline {
     stages{
         stage("Format and Test"){
             steps{
-                    sh "pwd"
-                    sh "ls -l"
-                    sh "make format"
-                    sh "make test"
-            }
-        }
-        stage("Run"){
-            steps{
-                    sh "make run"
-            }
-        }
-        stage("Build"){
-            steps{
-                    sh "make build"
-                    sh "make run_binary"
-                    sh "make rm"
+                sh """
+                    export GOCACHE="${WORKSPACE}" 
+                    pwd
+                    ls -l
+                    make format
+                    make test
+                """
             }
         }
     }
