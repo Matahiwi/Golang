@@ -1,5 +1,11 @@
 pipeline {
-    agent any  // we only have one node (master), any selects that, we can define specific agents if required
+
+    agent {
+        docker {  // use golang image on docker to do all stages in this pipeline
+            image 'golang:1.19.11'
+            }
+    }
+
     stages{
         stage("Format and Test"){
             steps{
@@ -23,3 +29,4 @@ pipeline {
         }
     }
 }
+
