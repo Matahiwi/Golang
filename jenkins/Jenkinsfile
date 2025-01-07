@@ -1,3 +1,4 @@
+
 pipeline {
     agent {
         docker {  // use golang image on docker to do all stages in this pipeline
@@ -9,7 +10,8 @@ pipeline {
             steps{
                 sh """
                     echo "Format and Test Stage"
-                    export GOCACHE="${WORKSPACE}" # make gocache workspace not /.cache
+                    mkdir -p "${WORKSPACE}/cache"
+                    export GOCACHE="${WORKSPACE}/cache" # default uses /.cache/##
                     pwd
                     make format
                     make test
@@ -20,7 +22,8 @@ pipeline {
             steps{
                 sh """
                     echo "Run Stage"
-                    export GOCACHE="${WORKSPACE}" 
+                    mkdir -p "${WORKSPACE}/cache"
+                    export GOCACHE="${WORKSPACE}/cache" 
                     make run
                 """
             }
@@ -29,7 +32,8 @@ pipeline {
             steps{
                 sh """
                     echo "Build Stage"
-                    export GOCACHE="${WORKSPACE}" 
+                    mkdir -p "${WORKSPACE}/cache"
+                    export GOCACHE="${WORKSPACE}/cache" 
                     make build
                     make run_binary
                     make rm
@@ -38,3 +42,4 @@ pipeline {
         }
     }
 }
+
