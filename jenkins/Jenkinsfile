@@ -1,22 +1,40 @@
 pipeline {
-
     agent {
         docker {  // use golang image on docker to do all stages in this pipeline
             image 'golang:1.19.11'
             }
     }
-
     stages{
         stage("Format and Test"){
             steps{
                 sh """
-                    export GOCACHE="${WORKSPACE}" 
+                    export GOCACHE="${WORKSPACE}" # make gocache workspace not /.cache
                     pwd
-                    ls -l
                     make format
                     make test
                 """
             }
         }
+        stage("Run"){
+            steps{
+                sh """
+                    export GOCACHE="${WORKSPACE}" 
+                    pwd
+                    make run
+                """
+            }
+        }
+        stage("Build"){
+            steps{
+                sh """
+                    export GOCACHE="${WORKSPACE}" 
+                    pwd
+                    make build
+                    make run_binary
+                    make rm
+                """
+            }
+        }
     }
 }
+
